@@ -1,10 +1,11 @@
-# chess
+# Description
 Tiny console chess engine
 
+## Build 
 build command :
                 just 'make' :-)
 
-Usage of run:
+## Run 
                 ./main -d [depth]  -fen [FEN STRING]
                 
 For example:
