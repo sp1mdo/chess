@@ -1,5 +1,10 @@
+
 #ifndef CHESSTYPES_H
 #define CHESSTYPES_H
+
+#include <inttypes.h>
+
+#define MAX_MOVES 100
 
 #define PAWN_VALUE 10
 #define BISHOP_VALUE 30
@@ -27,31 +32,31 @@
 
 typedef struct move
 {
-	int from;
-	int to;
-	int evaluation;
-	int promotion; //kind of piece to promote
+	uint8_t from;
+	uint8_t to;
+	short evaluation;
+	uint8_t promotion; //kind of piece to promote
 } move;
 
 
 
 typedef struct position
 {
-	int bestMoveNumber;
-	char fenStr[100];
-	int myBoard[64];
-	move moves[100];
+	uint8_t bestMoveNumber;
+	//char fenStr[100];
+	int8_t myBoard[64];
+	int8_t lastTakenPiece;
+	uint8_t numberOfMoves;
+	int8_t turn;
+	uint8_t blackCastleKing;
+	uint8_t blackCastleQueen;
+	uint8_t whiteCastleKing;
+	uint8_t whiteCastleQueen;
+	move moves[MAX_MOVES];
 	move lastMove;
 	move bestMove;
-	int lastTakenPiece;
-	int numberOfMoves;
-	int turn;
-	int blackCastleKing;
-	int blackCastleQueen;
-	int whiteCastleKing;
-	int whiteCastleQueen;
-	int evaluation;
-	int exitDepth;
+	short evaluation;
+	short exitDepth;
 } position;
 
 
