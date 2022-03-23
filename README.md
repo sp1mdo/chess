@@ -1,5 +1,6 @@
 # chess
 Tiny console chess engine
+
 build command :
                 just 'make' :-)
 
