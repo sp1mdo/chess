@@ -266,16 +266,21 @@ void evaluatePosition(position *myPos) // function evaluates the position based 
 void printPosition(position *myPos) // function that prints the board layout on the console
 {
 	int i;
-	printf("__A___B___C___D___E___F___G___H__\n\n");
+	printf("  __A___B___C___D___E___F___G___H__\n\n8 ");
 	for (i = 0; i < 64; i++)
 	{
 		printf("| %c ", pieceToChar(myPos->myBoard[i]));
 
 		if ((i + 1) % 8 == 0)
-			printf("| \n");
+		{
+			if((64-i)/8)
+				printf("| %d\n%d ",(64-i)/8+1 ,(64-i)/8);
+			else
+				printf("| %d \n  ",(64-i)/8+1);
+		}
 	}
 	printf("_________________________________\n");
-	printf("  A   B   C   D   E   F   G   H\n");
+	printf("    A   B   C   D   E   F   G   H\n");
 	if (myPos->turn == WHITE_TO_MOVE)
 		printf("white to move! '\n");
 	if (myPos->turn == BLACK_TO_MOVE)
@@ -496,16 +501,15 @@ int main(int argc, char **argv)
 	{
 		if (!strcmp("-fen", argv[3]))
 		{
-			printf("FENIK [%s]\n", argv[4]);
+			if(argv[4] != NULL) strcpy(startPos,argv[4]); //set the starting position from FEN_string argument
 		}
 	}
 
-	if(argv[4] != NULL) strcpy(startPos,argv[4]); //set the starting position from FEN_string argument
 
 
 	setPositionFromFEN(&myPos1, startPos);
 
-	printf("\n %d %d %d %d = roszady \n", myPos1.whiteCastleKing, myPos1.whiteCastleQueen, myPos1.blackCastleKing, myPos1.blackCastleQueen);
+
 
 	// isMovePossible(&tmpMove, &myPos1); //checks if the move is possible to make
 	// printf("status = %d \n", status1);
@@ -526,7 +530,8 @@ int main(int argc, char **argv)
 			makeMoveFromMove(&myPos1, &tmpMove);
 		else
 		{
-			printf("nima tak !!  \n");
+			printf("No such move possible\n Available list of moves:");
+			printMoves(&myPos1);
 			goto jeszcze;
 		}
 
