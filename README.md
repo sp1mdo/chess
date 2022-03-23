@@ -2,14 +2,14 @@
 Tiny console chess engine
 
 ## Build 
-build command :
-                just 'make' :-)
+    make
 
 ## Run 
-                ./main -d [depth]  -fen [FEN STRING]
+    ./main -d [depth]  -fen [FEN STRING]
                 
 For example:
-                ./main -d 5 -fen "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+    
+    ./main -d 5 -fen "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
                
 Recommended depth parameter is 4. Bigger numbers may effect with time consuming analysis.
 FEN_STRING makes the game start from given position. Lack of this parameter will make the game run from initial position.
