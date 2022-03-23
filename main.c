@@ -564,4 +564,4 @@ int main(int argc, char **argv)
 	printf("exitdepth=%d\n", myPos1.exitDepth);
 
 	return 0;
-}
+} 
