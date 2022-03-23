@@ -89,12 +89,12 @@ int clearAllMoves(position *myPos)
 {
 	int i = 0;
 
-	for (i = 0; i < 100; i++)
-	{
-		myPos->moves[i].to = 0;
-		myPos->moves[i].from = 0;
-	}
-	myPos->numberOfMoves = 0;
+	//for (i = 0; i < MAX_MOVES; i++) //no need to do this, saving some time
+	//{
+	//	myPos->moves[i].to = 0;
+	//	myPos->moves[i].from = 0;
+	//}
+	myPos->numberOfMoves = 0;  //this is enought to clear the move list ;)
 
 	return 0;
 }
