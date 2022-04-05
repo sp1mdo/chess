@@ -3,6 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <pthread.h>
+
+extern pthread_mutex_t searchMutex;
 
 void makeMove(position *myPos, int moveNo)
 {
@@ -15,6 +18,7 @@ void makeMove(position *myPos, int moveNo)
 		myPos->lastTakenPiece = myPos->myBoard[myPos->moves[moveNo].to];
 		myPos->myBoard[myPos->moves[moveNo].to] = myPos->myBoard[myPos->moves[moveNo].from];
 		myPos->myBoard[myPos->moves[moveNo].from] = 0;
+		myPos->lastMove.promotion = 0;
 
         //biala roszada king side
         if(myPos->moves[moveNo].from == 60 && myPos->moves[moveNo].to == 62 && myPos->myBoard[62] == WHITE_KING)
@@ -23,6 +27,7 @@ void makeMove(position *myPos, int moveNo)
             myPos->myBoard[63] = 0;
             myPos->whiteCastleKing = 1;
             myPos->whiteCastleQueen = 1;
+			myPos->lastMove.promotion = 0;
         }
         //biala roszada queen side
         if(myPos->moves[moveNo].from == 60 && myPos->moves[moveNo].to == 58 && myPos->myBoard[58] == WHITE_KING)
@@ -31,6 +36,7 @@ void makeMove(position *myPos, int moveNo)
             myPos->myBoard[56] = 0;
             myPos->whiteCastleKing = 1;
             myPos->whiteCastleQueen = 1;
+			myPos->lastMove.promotion = 0;
         }
 
         //czarna roszada king side
@@ -40,6 +46,7 @@ void makeMove(position *myPos, int moveNo)
             myPos->myBoard[63] = 0;
             myPos->blackCastleKing = 1;
             myPos->blackCastleQueen = 1;
+			myPos->lastMove.promotion = 0;
         }
         //czarna roszada queen side
         if(myPos->moves[moveNo].from == 4 && myPos->moves[moveNo].to == 2 && myPos->myBoard[2] == BLACK_KING)
@@ -48,20 +55,22 @@ void makeMove(position *myPos, int moveNo)
             myPos->myBoard[5] = 0;
             myPos->blackCastleKing = 1;
             myPos->blackCastleQueen = 1;
+			myPos->lastMove.promotion = 0;
         }
 
 
 	}
 
 
-	if (myPos->turn == WHITE_TO_MOVE && myPos->moves[moveNo].to < 8)
+	if (myPos->turn == WHITE_TO_MOVE && myPos->moves[moveNo].to < 8 && myPos->moves[moveNo].from == WHITE_PAWN)
 	{
 		myPos->myBoard[myPos->moves[moveNo].to] = WHITE_QUEEN;
 		myPos->lastMove.promotion = WHITE_QUEEN;
 	}
 	else
 		myPos->lastMove.promotion = 0;
-	if (myPos->turn == BLACK_TO_MOVE && myPos->moves[moveNo].to > 55)
+
+	if (myPos->turn == BLACK_TO_MOVE && myPos->moves[moveNo].to > 55 && myPos->moves[moveNo].from == BLACK_PAWN)
 	{
 		myPos->myBoard[myPos->moves[moveNo].to] = BLACK_QUEEN;
 		myPos->lastMove.promotion = BLACK_QUEEN;
@@ -124,7 +133,7 @@ void printMove(move *myMove)
 	printf("(%s-%s) ", from, to);
 }
 
-void unMakeMove(position *myPos)
+void unMakeMove(position *myPos, int check)
 {
 	myPos->myBoard[myPos->lastMove.from] = myPos->myBoard[myPos->lastMove.to];
 	myPos->myBoard[myPos->lastMove.to] = myPos->lastTakenPiece;
@@ -139,7 +148,7 @@ void unMakeMove(position *myPos)
 	}
 
 	myPos->turn = myPos->turn * (-1); // CIEKAWE CZY TO W OGOLE DZIALA...
-	findMoves(myPos);
+	//findMoves(myPos,0);
 }
 
 int isMovePossible(move *myMove, position *myPos)
@@ -170,7 +179,12 @@ move getMove(int *status)
 		printf("Enter the move: ");
 		scanf("%s", buff); // flush ?
 		//printf("wzielem [%s]\n", buff);
-		if(!strcmp(buff,"quit")) exit(0);
+		if(!strcmp(buff,"quit")) 
+		{
+			pthread_mutex_destroy(&searchMutex);
+			exit(0);
+		
+		}
 		if(!strcmp(buff,"?"))
 		{
 			puts("possible commands:");

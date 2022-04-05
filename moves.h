@@ -8,7 +8,7 @@ void makeMoveFromMove(position *myPos, move *myMove);
 int clearAllMoves(position *myPos);
 void printMoves(position *myPos);
 void printMove(move *myMove);
-void unMakeMove(position *myPos);
+void unMakeMove(position *myPos, int check);
 int isMovePossible(move *myMove, position *myPos);
 move getMove(int *status);
 void coordToStr(char *dst, int coord);

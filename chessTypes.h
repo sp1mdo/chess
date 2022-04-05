@@ -7,10 +7,10 @@
 #define MAX_MOVES 100
 
 #define PAWN_VALUE 10
-#define BISHOP_VALUE 30
-#define KNIGHT_VALUE 30
+#define BISHOP_VALUE 34
+#define KNIGHT_VALUE 34
 #define QUEEN_VALUE 90
-#define KING_VALUE 900
+#define KING_VALUE 90
 #define ROOK_VALUE 50
 
 #define WHITE_KING 1
@@ -34,10 +34,9 @@ typedef struct move
 {
 	uint8_t from;
 	uint8_t to;
-	short evaluation;
+	int evaluation;
 	uint8_t promotion; //kind of piece to promote
 } move;
-
 
 
 typedef struct position
@@ -55,9 +54,15 @@ typedef struct position
 	move moves[MAX_MOVES];
 	move lastMove;
 	move bestMove;
-	short evaluation;
+	int evaluation;
 	short exitDepth;
 } position;
 
+typedef struct hashList_t
+{
+	uint64_t val;
+	struct hashList_t* next;
+	struct hashList_t* prev;
+} hashList_t;
 
 #endif
