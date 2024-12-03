@@ -3,7 +3,6 @@
 #include <string.h>
 #include <stdlib.h>
 #include <pthread.h>
-#include <openssl/sha.h>
 #include "chessTypes.h"
 #include "findMoves.h"
 #include "moves.h"
@@ -149,7 +148,7 @@ uint64_t generateHash(position *myPos)
 		exit(1);
 	}
 
-	SHA256((char *)myPos, sizeof(position), (unsigned char *)&retVal);
+	//SHA256((char *)myPos, sizeof(position), (unsigned char *)&retVal);
 	return retVal[0];
 }
 
